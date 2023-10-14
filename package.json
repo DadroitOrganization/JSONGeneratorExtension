@@ -1,0 +1,79 @@
+{
+  "name": "dadroit-json-generator",
+  "displayName": "Dadroit JSON Generator",
+  "description": "Generate nested sample JSON data using custom templates.",
+  "version": "1.0.0",
+  "icon": "images/512x512.png",
+  "publisher": "Dadroit",
+  "preview": true,
+  "keywords": [
+    "JSON",
+    "random",
+    "generator",
+    "sample",
+    "mock data",
+    "template",
+    "make"
+  ],
+  "galleryBanner": {
+    "color": "#2A4DAF",
+    "theme": "dark"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DadroitOrganization/JSONGeneratorExtension.git"
+  },
+  "author": "Dadroit hi@dadroit.com",
+  "engines": {
+    "vscode": "^1.82.0"
+  },
+  "categories": [
+    "Debuggers",
+    "Testing",
+    "Programming Languages"
+  ],
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/DadroitOrganization/JSONGeneratorExtension/issues"
+  },
+  "homepage": "https://github.com/DadroitOrganization/JSONGeneratorExtension.git",
+  "activationEvents": [],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "Dadroit: Generate JSON Sample",
+        "title": "Dadroit: Generate JSON Sample",
+        "category": "Dadroit"
+      },
+      {
+        "command": "Dadroit: Generate JSON",
+        "title": "Dadroit: Generate JSON",
+        "category": "Dadroit"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "webpack",
+    "watch": "webpack --watch",
+    "package": "webpack --mode production --devtool hidden-source-map",
+    "lint": "eslint src --ext ts"
+  },
+  "devDependencies": {
+    "@types/node": "16.x",
+    "@types/unzipper": "^0.10.7",
+    "@types/vscode": "^1.82.0",
+    "@typescript-eslint/eslint-plugin": "^6.4.1",
+    "@typescript-eslint/parser": "^6.4.1",
+    "eslint": "^8.47.0",
+    "ts-loader": "^9.4.4",
+    "typescript": "^5.1.6",
+    "vsce": "^2.15.0",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4"
+  },
+  "dependencies": {
+    "unzipper": "^0.10.14"
+  }
+}

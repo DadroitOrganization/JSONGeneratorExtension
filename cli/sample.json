@@ -1,0 +1,21 @@
+{
+	"Key": "c0fbd796-0609-4682-8d12-4cb5afef3baf",  
+	"Value": {
+		"X": 1,
+		"Y": 2
+	},
+	"Books": {
+		"$Random": [
+			"B1",
+			"B2",
+			"B3"
+		]
+	},
+	"Age": {
+		"$Random": {
+			"$Count": 3,
+			"$Min": 20,
+			"$Max": 30
+		}
+	}
+}
