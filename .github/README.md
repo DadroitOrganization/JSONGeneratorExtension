@@ -1,5 +1,5 @@
 # Dadroit JSON Generator VSCode Extension
-![Version](https://img.shields.io/badge/version-1.1.0-brightgreen) [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://github.com/DadroitOrganization/JSONGeneratorExtension/blob/main/LICENSE)
+![Version](https://img.shields.io/badge/version-1.1.2-brightgreen) [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://github.com/DadroitOrganization/JSONGeneratorExtension/blob/main/LICENSE)
 
 Use custom templates to easily create random nested JSON data right in your development workspace. This simple tool helps with debugging, checking schemas, and improving app performance.
 
@@ -28,9 +28,9 @@ To install the extension:
 ### **Usage**
 
 1. **Command Palette Usage:**
-  To access the extension's features, open the Command Palette by pressing `Cmd+Shift+P` (on macOS) or `Ctrl+Shift+P` (on Windows and Linux), and select from the available commands such as `Dadroit: Generate JSON Sample` or `Dadroit: Generate JSON`.
+    To access the extension's features, open the Command Palette by pressing `Cmd+Shift+P` (on macOS) or `Ctrl+Shift+P` (on Windows and Linux), and select from the available commands such as `Dadroit: Generate JSON Sample` or `Dadroit: Generate JSON`.
 2. **Template Utilization:**
-  Use your custom templates or leverage the pre-built ones from our [GitHub Samples](https://github.com/DadroitOrganization/Generator/tree/main/Samples) to generate custom-defined JSON data.
+    Use your custom templates or leverage the pre-built ones from our [GitHub Samples](https://github.com/DadroitOrganization/Generator/tree/main/Samples) to generate custom-defined JSON data.
 
 ## **Features**
 
