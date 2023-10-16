@@ -2,10 +2,10 @@
   "name": "dadroit-json-generator",
   "displayName": "Dadroit JSON Generator",
   "description": "Generate nested sample JSON data using custom templates.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "icon": "images/512x512.png",
   "publisher": "Dadroit",
-  "preview": true,
+  "preview": false,
   "keywords": [
     "JSON",
     "random",
@@ -16,7 +16,7 @@
     "make"
   ],
   "galleryBanner": {
-    "color": "#2A4DAF",
+    "color": "#FFBB00",
     "theme": "dark"
   },
   "repository": {

@@ -1,6 +1,32 @@
 # Changelog
 
-All notable changes to the "Dadroit JSON Generator" extension will be documented in this file.
+All changes to the "Dadroit JSON Generator" extension will be documented in this file.
+
+## [1.0.1] - 2023-10-14
+
+### Added
+
+- None 
+
+### Changed
+
+- Updated the banner colors  
+
+### Deprecated
+
+- None
+
+### Removed
+
+- None
+
+### Fixed
+
+- None
+
+### Security
+
+- None
 
 ## [1.0.0] - 2023-10-14
 
