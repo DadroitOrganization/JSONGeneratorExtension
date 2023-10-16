@@ -2,7 +2,7 @@
   "name": "dadroit-json-generator",
   "displayName": "Dadroit JSON Generator",
   "description": "Generate nested sample JSON data using custom templates.",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "icon": "images/512x512.png",
   "publisher": "Dadroit",
   "preview": false,
@@ -17,7 +17,7 @@
   ],
   "galleryBanner": {
     "color": "#FFBB00",
-    "theme": "dark"
+    "theme": "light"
   },
   "repository": {
     "type": "git",
@@ -36,6 +36,7 @@
   "bugs": {
     "url": "https://github.com/DadroitOrganization/JSONGeneratorExtension/issues"
   },
+  "qna": "marketplace",
   "homepage": "https://github.com/DadroitOrganization/JSONGeneratorExtension.git",
   "activationEvents": [],
   "main": "./dist/extension.js",

@@ -2,31 +2,20 @@
 
 All changes to the "Dadroit JSON Generator" extension will be documented in this file.
 
-## [1.0.1] - 2023-10-14
+## [1.1.0] - [2023-10-16]
 
 ### Added
 
-- None 
+- Support for macOS
+- Support for Linux
+- Update the banner theme 
+
+## [1.0.1] - 2023-10-14
 
 ### Changed
 
-- Updated the banner colors  
-
-### Deprecated
-
-- None
-
-### Removed
-
-- None
-
-### Fixed
-
-- None
-
-### Security
-
-- None
+- Updated the banner colors
+- Remove preview flag   
 
 ## [1.0.0] - 2023-10-14
 
@@ -35,22 +24,6 @@ All changes to the "Dadroit JSON Generator" extension will be documented in this
 - Initial release.
 - Core functionalities to generate JSON from templates.
 - Basic settings and configurations.
-
-### Changed
-
-- None (Initial release)
-
-### Deprecated
-
-- None (Initial release)
-
-### Removed
-
-- None (Initial release)
-
-### Fixed
-
-- None (Initial release)
 
 ### Security
 

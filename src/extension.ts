@@ -8,7 +8,8 @@ import * as https from 'https';
 import * as unzipper from 'unzipper';
 
 // Global constants and variables
-const downloadUrl = "https://github.com/DadroitOrganization/Generator/releases/download/Release_Version_1.0.0.351/JSONGeneratorCLI-Windows-x86_64.zip";
+const downloadUrlBase = "https://github.com/DadroitOrganization/Generator/releases/download/Release_Version_1.0.0.351/";
+let defaultExtensionPath = '', cliPath = '', binaryFileName = '', downloadUrl = '';
 const sampleName = 'sample.json';
 const tempSampleName = 'tempSample.json';
 const sampleOutputName = 'sample.out.json';
@@ -25,7 +26,6 @@ const generatedFilePath = path.join(dadroitFolderPath, sampleOutputName);
 const tempGeneratedFilePath = path.join(dadroitFolderPath, tempSampleOutputName);
 const tempSamplePath = path.join(dadroitFolderPath, tempSampleName);
 
-let defaultExtensionPath = '', exePath = '';
 
 // Check if a file exists
 function fileExists(filePath: string): boolean {
@@ -47,10 +47,22 @@ async function openFileInEditor(filePath: string) {
 	}
 }
 
-function openFolderInWindowsExplorer(folderPath: string) {
+function openFolderInExplorer(folderPath: string) {
 	try {
 		const absolutePath = path.resolve(folderPath);
-		exec(`explorer "${absolutePath}"`);
+		switch (os.platform()) {
+			case 'win32':
+				exec(`explorer "${absolutePath}"`);
+				break;
+			case 'darwin':
+				exec(`open "${absolutePath}"`);
+				break;
+			case 'linux':
+				exec(`xdg-open "${absolutePath}"`);
+				break;
+			default:
+				throw new Error(`Unsupported platform: ${os.platform()}`);
+		}
 	} catch (error) {
 		vscode.window.showErrorMessage(`Failed to open folder: ${error}`);
 	}
@@ -125,22 +137,13 @@ function spawnChildProcess(args: string[], isSampleCommand: Boolean) {
 			resultPath = tempGeneratedFilePath;
 		}
 
-		const child = cp.spawn(exePath, args);
+		const child = cp.spawn(cliPath, args);
 
-		// child.stdout.on('data', (data) => { 
-		// console.log(`stdout: ${data}`); 
-		// });
+		child.stderr.on('data', (data) => { vscode.window.showErrorMessage(`stderr: ${data}`); });
 
-		child.stderr.on('data', (data) => {
-			vscode.window.showErrorMessage(`stderr: ${data}`);
-		});
-
-		child.on('error', (err) => {
-			vscode.window.showErrorMessage(`Failed to start subprocess: ${err}`);
-		});
+		child.on('error', (err) => { vscode.window.showErrorMessage(`Failed to start subprocess: ${err}`); });
 
 		child.on('close', (code) => {
-			// console.log(`child process exited with code ${code}`);
 			let caption = 'Your result file is ready.';
 
 			//Open the default sample which based on it the json was generated in the editor 
@@ -156,9 +159,10 @@ function spawnChildProcess(args: string[], isSampleCommand: Boolean) {
 				if (selection === 'Open File in VSCode') {
 					openFileInEditor(resultPath);
 				} else if (selection === 'Open File in Explorer') {
-					openFolderInWindowsExplorer(defaultResultPath);
+					openFolderInExplorer(defaultResultPath);
 				}
 			});
+
 		});
 	} catch (error) {
 		vscode.window.showErrorMessage(`Error execute the command: ${error}`);
@@ -185,7 +189,7 @@ async function downloadAndUnzip(url: string, destination: string): Promise<void>
 							return;
 						}
 						if (response.statusCode !== 200) {
-							reject(new Error(`Failed to download EXE. HTTP Status Code: ${response.statusCode}`));
+							reject(new Error(`Failed to download cli. HTTP Status Code: ${response.statusCode}`));
 							return;
 						}
 
@@ -197,8 +201,15 @@ async function downloadAndUnzip(url: string, destination: string): Promise<void>
 							progress.report({ increment: percentage });
 						});
 
+						// Once the binary has been downloaded and unzipped, update its permissions for macOS and Linux:
 						response.pipe(unzipper.Extract({ path: destination }))
-							.on('close', () => resolve())
+							.on('close', () => {
+								if (os.platform() === 'darwin' || os.platform() === 'linux') {
+									const chmodPath = path.join(destination, binaryFileName);
+									fs.chmodSync(chmodPath, 0o755);
+								}
+								resolve();
+							})
 							.on('error', (err: any) => reject(err));
 					}).on('error', (err: any) => reject(err));
 				};
@@ -213,17 +224,17 @@ async function downloadAndUnzip(url: string, destination: string): Promise<void>
 	});
 }
 
-async function ensureExeExists(exePath: string): Promise<boolean> {
+async function ensureCliExists(cliPathParam: string): Promise<boolean> {
 	try {
-		if (fileExists(exePath)) {
+		if (fileExists(cliPathParam)) {
 			return true;
 		}
 		// Ensure directory exists
-		const exeDir = path.dirname(exePath);
-		if (!fs.existsSync(exeDir)) {
-			fs.mkdirSync(exeDir, { recursive: true });
+		const cliDir = path.dirname(cliPathParam);
+		if (!fs.existsSync(cliDir)) {
+			fs.mkdirSync(cliDir, { recursive: true });
 		}
-		await downloadAndUnzip(downloadUrl, exeDir);
+		await downloadAndUnzip(downloadUrl, cliDir);
 		return true;
 	} catch (error) {
 		vscode.window.showErrorMessage(`Error CLI app exists: ${error}`);
@@ -232,11 +243,11 @@ async function ensureExeExists(exePath: string): Promise<boolean> {
 }
 
 //Main entry function to initialize check for binary file then start download etc 
-async function ensureExeAndReport(exePath: string): Promise<boolean> {
+async function ensureCliAndReport(cliPathParam: string): Promise<boolean> {
 	try {
-		const exeExists = await ensureExeExists(exePath);
-		if (!exeExists) {
-			vscode.window.showErrorMessage(`Failed to ensure CLI exists: ${exePath}`);
+		const cliExists = await ensureCliExists(cliPathParam);
+		if (!cliExists) {
+			vscode.window.showErrorMessage(`Failed to ensure CLI exists: ${cliPathParam}`);
 			return false;
 		}
 		return true;
@@ -246,36 +257,67 @@ async function ensureExeAndReport(exePath: string): Promise<boolean> {
 	}
 }
 
+function setAddressesBasedOnOS() {
+	try {
+		let fn = '', osName = '';
+
+		switch (os.platform()) {
+			case 'win32':
+				fn = 'JSONGeneratorCLI.exe';
+				osName = 'Windows';
+				break;
+			case 'darwin':  // macOS
+				fn = 'JSONGeneratorCLI';
+				osName = 'macOs';
+				break;
+			case 'linux':
+				fn = 'JSONGeneratorCLI';
+				osName = 'linux';
+				break;
+			default:
+				vscode.window.showErrorMessage('This OS is not supported!');
+		}
+
+		binaryFileName = fn;
+		downloadUrl = `${downloadUrlBase}JSONGeneratorCLI-${osName}-x86_64.zip`;
+	} catch (error) {
+		vscode.window.showErrorMessage(`Error getBinaryFileName: ${error}`);
+	}
+}
+
 //First initialization of the app 
 async function initializeEnvironment(context: vscode.ExtensionContext) {
 	try {
-		defaultExtensionPath = path.join(context.extensionPath, 'cli');
-		exePath = path.join(defaultExtensionPath, 'JSONGeneratorCLI.exe');
-		ensureExistenceDefaultFolder();
-		copyIfNotExist(defaultExtensionPath, defaultResultPath, sampleName);
-		if (!fileExists(samplePath)) {
-			vscode.window.showErrorMessage(`Sample file not exist: ${samplePath}`);
+		setAddressesBasedOnOS();
+		if (binaryFileName !== '') {
+			defaultExtensionPath = path.join(context.extensionPath, 'cli');
+			cliPath = path.join(defaultExtensionPath, binaryFileName);
+			ensureExistenceDefaultFolder();
+			copyIfNotExist(defaultExtensionPath, defaultResultPath, sampleName);
+			if (!fileExists(samplePath)) {
+				vscode.window.showErrorMessage(`Sample file not exist: ${samplePath}`);
+			}
 		}
 	} catch (error) {
 		vscode.window.showErrorMessage(`Error initializing: ${error}`);
 	}
 }
 
-//Helper to reister all the commands which would be called once during activation process  
+//Helper to register all the commands which would be called once during activation process  
 async function registerCommands(context: vscode.ExtensionContext) {
 	try {
 		//the default sample command 
 		let disposable = vscode.commands.registerCommand('Dadroit: Generate JSON Sample', async () => {
-			if (! await ensureExeAndReport(exePath)) {
+			if (! await ensureCliAndReport(cliPath)) {
 				return;
 			}
-			copyIfNotExist(exePath, defaultResultPath, sampleName);
+			copyIfNotExist(cliPath, defaultResultPath, sampleName);
 			spawnChildProcess([samplePath], true);
 		});
 
 		//The command to generate json from the opened editor file 
 		let disposableTemp = vscode.commands.registerCommand('Dadroit: Generate JSON', async () => {
-			if (! await ensureExeAndReport(exePath)) {
+			if (! await ensureCliAndReport(cliPath)) {
 				return;
 			}
 			const editor = vscode.window.activeTextEditor;
@@ -306,20 +348,11 @@ async function registerCommands(context: vscode.ExtensionContext) {
 //This is the entry point of the app
 export async function activate(context: vscode.ExtensionContext) {
 	try {
-		// Check platform and architecture: returns 'win32' for both 32-bit and 64-bit Windows
-		if (os.platform() !== 'win32') {
-			vscode.window.showErrorMessage('This extension is only supported on Windows for now!');
-			return;
-		}
-
 		await initializeEnvironment(context);
-
-		if (! await ensureExeAndReport(exePath)) {
+		if (! await ensureCliAndReport(cliPath)) {
 			return;
 		}
-
 		await registerCommands(context);
-
 	} catch (error) {
 		vscode.window.showErrorMessage(`Error activate: ${error}`);
 	}
