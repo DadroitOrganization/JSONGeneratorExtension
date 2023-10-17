@@ -2,6 +2,12 @@
 
 All changes to the "Dadroit JSON Generator" extension will be documented in this file.
 
+## [1.1.4] - [2023-10-17]
+
+### Changed
+
+- Update readme
+
 ## [1.1.3] - [2023-10-17]
 
 ### Changed

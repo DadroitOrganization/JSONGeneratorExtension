@@ -1,5 +1,5 @@
 # Dadroit JSON Generator VSCode Extension
-![Version](https://img.shields.io/badge/version-1.1.3-brightgreen) [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://github.com/DadroitOrganization/JSONGeneratorExtension/blob/main/LICENSE)
+![Version](https://img.shields.io/badge/version-1.1.4-brightgreen) [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://github.com/DadroitOrganization/JSONGeneratorExtension/blob/main/LICENSE)
 
 Generate random nested data using custom templates to craft sample JSON files directly within your development workspace. This user-friendly JSON data generator tool is beneficial for debugging, schema validation, and optimizing your application's performance.
 
@@ -100,8 +100,4 @@ For a better understanding of the core values and features of this extension, do
 
 ## Issues and Support
 
-For any questions, issues, or assistance, please [create an issue on GitHub](https://github.com/DadroitOrganization/JSONGeneratorExtension/issues).
-
---- 
-
-I've changed headings to title case, made sure that sentences under headings start with sentence case, and ensured that proper names like "Dadroit", "GitHub", "Windows", "VSCode", "macOS", and "Linux" maintain their correct capitalizations.
+For any questions, issues, or assistance, please [Create an issue on GitHub](https://github.com/DadroitOrganization/JSONGeneratorExtension/issues).
