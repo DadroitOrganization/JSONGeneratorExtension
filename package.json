@@ -2,7 +2,7 @@
   "name": "dadroit-json-generator",
   "displayName": "Dadroit JSON Generator",
   "description": "Generate nested sample JSON data using custom templates.",
-  "version": "1.1.6",
+  "version": "1.1.7",
   "icon": "images/512x512.png",
   "publisher": "Dadroit",
   "preview": false,
@@ -42,13 +42,13 @@
   "contributes": {
     "commands": [
       {
-        "command": "Dadroit: Generate JSON Sample",
-        "title": "Dadroit: Generate JSON Sample",
+        "command": "Generate JSON Sample",
+        "title": "Generate JSON Sample",
         "category": "Dadroit"
       },
       {
-        "command": "Dadroit: Generate JSON",
-        "title": "Dadroit: Generate JSON",
+        "command": "Generate JSON",
+        "title": "Generate JSON",
         "category": "Dadroit"
       }
     ]
