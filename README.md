@@ -1,5 +1,5 @@
 # Dadroit JSON Generator VSCode Extension
-![Version](https://img.shields.io/badge/version-1.1.4-brightgreen) [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://github.com/DadroitOrganization/JSONGeneratorExtension/blob/main/LICENSE)
+![Version](https://img.shields.io/badge/version-1.1.6-brightgreen) [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://github.com/DadroitOrganization/JSONGeneratorExtension/blob/main/LICENSE)
 
 Generate random nested data using custom templates to craft sample JSON files directly within your development workspace. This user-friendly JSON data generator tool is beneficial for debugging, schema validation, and optimizing your application's performance.
 
@@ -34,18 +34,18 @@ Use templates with loop syntax to handle repetitive data structures.
 
 ```json
 {
-	"List": {
-		"$Loop": {
-			"$From": 0,
-			"$To": 9,
-			"$Var": "I",
-			"$Block": {
-				"X": {
-					"$GetVar": "I"
-				}
-			}
-		}
-	}
+  "List": {
+    "$Loop": {
+      "$From": 0,
+      "$To": 9,
+      "$Var": "I",
+      "$Block": {
+        "X": {
+          "$GetVar": "I"
+        }
+      }
+    }
+  }
 }
 ```
 
@@ -55,7 +55,12 @@ Use the template language's built-in random function to generate varied data in 
 
 ```json
 {
-    "Age": {"$Random": {"$Min": 25,"$Max": 75}
+  "Age": {
+    "$Random": {
+      "$Min": 25,
+      "$Max": 75
+    }
+  }
 }
 ```
 
