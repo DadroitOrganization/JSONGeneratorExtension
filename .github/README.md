@@ -1,5 +1,5 @@
 # Dadroit JSON Generator VSCode Extension
-![Version](https://img.shields.io/badge/version-1.1.4-brightgreen) [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://github.com/DadroitOrganization/JSONGeneratorExtension/blob/main/LICENSE)
+![Version](https://img.shields.io/badge/version-1.1.6-brightgreen) [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://github.com/DadroitOrganization/JSONGeneratorExtension/blob/main/LICENSE)
 
 Use custom templates to easily create random nested JSON data right in your development workspace. This simple tool helps with debugging, checking schemas, and improving app performance.
 
