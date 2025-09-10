@@ -1,3 +1,4 @@
+tab
 # Dadroit JSON Generator VSCode Extension
 ![Version](https://img.shields.io/badge/version-1.2.2-brightgreen) [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://github.com/DadroitOrganization/JSONGeneratorExtension/blob/main/LICENSE)
 
